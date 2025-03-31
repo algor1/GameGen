@@ -7,24 +7,24 @@ fun main() {
     val chat = Chat()
     val prompts = Prompts()
 
-//    val jsonInput = chat.generate(prompts.gameIdea + prompts.prompt1)
-//    val jsonInput1 = jsonInput.trimIndent()
+    val jsonInput = chat.generate(prompts.gameIdea + prompts.prompt1)
+    val jsonInput1 = jsonInput.trimIndent()
 
-    val jsonInput = """
-        [
-            {
-                "name": "Game Logic",
-                "description": "Handles core game mechanics, player interactions, and AI behavior.",
-                "technologies": ["Unity", "C#"]
-            },
-            {
-                "name": "User Interface",
-                "description": "Manages HUD, menus, and on-screen elements.",
-                "technologies": ["Unity UI", "HTML5"]
-            }
-        ]
-    """.trimIndent()
-    val modules = parseModules(jsonInput)
+//    val jsonInput = """
+//        [
+//            {
+//                "name": "Game Logic",
+//                "description": "Handles core game mechanics, player interactions, and AI behavior.",
+//                "technologies": ["Unity", "C#"]
+//            },
+//            {
+//                "name": "User Interface",
+//                "description": "Manages HUD, menus, and on-screen elements.",
+//                "technologies": ["Unity UI", "HTML5"]
+//            }
+//        ]
+//    """.trimIndent()
+    val modules = parseModules(jsonInput1)
 
     modules.forEach { module ->
         println("Module: ${module.name}")
