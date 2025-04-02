@@ -1,6 +1,10 @@
+import dev.langchain4j.data.message.ChatMessage
+import dev.langchain4j.data.message.UserMessage
 import dev.langchain4j.model.ollama.OllamaChatModel
 import java.io.File
 import java.time.Duration
+import java.time.format.DateTimeFormatter
+import java.util.*
 
 class Chat {
     private val model: OllamaChatModel = OllamaChatModel.builder()
@@ -9,11 +13,18 @@ class Chat {
         .timeout(Duration.ofMinutes(30))
         .build()
 
+    private val messages: MutableList<ChatMessage> = mutableListOf<ChatMessage>()
+    init {
+        File("D:\\ChatHistory.txt",).appendText(Calendar.getInstance().time.toString() + "\n")
+    }
+
     fun generate(request: String): String {
         saveChat(request, HistoryType.REQUEST)
-        val response = model.generate(request)
-        saveChat(response, HistoryType.RESPONSE)
-        return response
+        messages.add(UserMessage.from(request))
+        val response = model.generate(messages).content()
+        messages.add(response)
+        saveChat(response.text(), HistoryType.RESPONSE)
+        return response.text()
     }
 
     private fun saveChat(content: String, type: HistoryType) {

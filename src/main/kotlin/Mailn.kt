@@ -23,8 +23,3 @@ data class Module(
     val description: String,
     val technologies: List<String>
 )
-
-
-
-
-
