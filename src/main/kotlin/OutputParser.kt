@@ -62,4 +62,8 @@ object OutputParser {
         }
         return modules
     }
+
+    fun parseInterfaces(interfacesJsonInput: String): List<Interface> {
+        return Json.decodeFromString(interfacesJsonInput)
+    }
 }
