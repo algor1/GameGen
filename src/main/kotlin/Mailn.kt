@@ -15,6 +15,10 @@ fun main() {
         println()
     }
 
+    val gameLogicResponce = chat.generate(prompts.prompt_interfaces)
+    println(gameLogicResponce)
+
+
 }
 
 @Serializable

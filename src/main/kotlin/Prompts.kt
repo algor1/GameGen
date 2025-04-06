@@ -39,4 +39,29 @@ class Prompts {
             "    \"technologies\": [\"Unity UI\", \"HTML5\"]\n" +
             "  }\n" +
             "]\n"
+
+    val prompt_interfaces = "\"I have a list of game modules generated from a game concept.\n" +
+            "Each module includes its name, description, and technologies.\n" +
+            "\n" +
+            "Now, for each module, please provide:\n" +
+            "\n" +
+            "name: The module's name.\n" +
+            "\n" +
+            "logic: A detailed explanation of the internal logic and responsibilities of the module. This should include data flow, interactions, behaviors, state management, etc. The logic will be used for separate implementation later, so please make it as comprehensive and precise as possible.\n" +
+            "\n" +
+            "interfaces: A code snippet in a public interface style that defines how other modules or parts of the game will interact with this module. Use a suitable language depending on the technologies previously suggested (e.g., TypeScript for frontend, Kotlin or C# for logic modules).\n" +
+            "\n" +
+            "Return the result in the following JSON format:\n" +
+            "\n" +
+            "json\n" +
+            "Copy\n" +
+            "Edit\n" +
+            "[\n" +
+            "  {\n" +
+            "    \"name\": \"<module name>\",\n" +
+            "    \"logic\": \"<detailed logic description>\",\n" +
+            "    \"interfaces\": \"<public interface code here>\"\n" +
+            "  }\n" +
+            "]\n" +
+            "Avoid any additional explanation outside the JSON. Only return the JSON array.\""
 }
