@@ -10,9 +10,7 @@ import dev.langchain4j.store.memory.chat.ChatMemoryStore
 import org.mapdb.DB
 import org.mapdb.DBMaker
 import org.mapdb.Serializer.STRING
-import java.io.File
 import java.time.Duration
-import java.util.*
 
 interface Assistant {
     fun chat(message: String): String
@@ -36,30 +34,6 @@ class Chat {
         .chatMemory(chatMemory)
         .build()
 
-    private val messages: MutableList<ChatMessage> = mutableListOf<ChatMessage>()
-    init {
-        File("D:\\ChatHistory.txt").appendText(Calendar.getInstance().time.toString() + "\n")
-    }
-
-    fun generate(request: String): String {
-        saveChat(request, HistoryType.REQUEST)
-        messages.add(UserMessage.from(request))
-        val response = model.generate(messages).content()
-        messages.add(response)
-        saveChat(response.text(), HistoryType.RESPONSE)
-        return response.text()
-    }
-
-    private fun saveChat(content: String, type: HistoryType) {
-        val historyPoint = OutputParser.SEPARATOR + type + "\n" +
-                content + "\n" +
-                OutputParser.SEPARATOR + "\n"
-        File("D:\\ChatHistory.txt").appendText(historyPoint)
-    }
-}
-
-enum class HistoryType{
-    REQUEST, RESPONSE
 }
 
 class PersistentChatMemoryStore : ChatMemoryStore {

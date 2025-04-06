@@ -17,7 +17,7 @@ fun main() {
 
     val interfacesResponse = assistant.chat(prompts.prompt_interfaces)
     println(interfacesResponse)
-    val interfacesJsonInput = OutputParser.parse(modulesResponse, "json").first()
+    val interfacesJsonInput = OutputParser.parse(interfacesResponse, "json").first()
     val interfaces = OutputParser.parseInterfaces(interfacesJsonInput)
 }
 
