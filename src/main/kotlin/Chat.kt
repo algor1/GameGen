@@ -1,7 +1,6 @@
 import dev.langchain4j.data.message.ChatMessage
 import dev.langchain4j.data.message.ChatMessageDeserializer.messagesFromJson
 import dev.langchain4j.data.message.ChatMessageSerializer.messagesToJson
-import dev.langchain4j.data.message.UserMessage
 import dev.langchain4j.memory.ChatMemory
 import dev.langchain4j.memory.chat.MessageWindowChatMemory
 import dev.langchain4j.model.ollama.OllamaChatModel
