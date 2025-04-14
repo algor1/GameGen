@@ -13,13 +13,21 @@ import java.time.Duration
 
 interface Assistant {
     fun chat(message: String): String
+    fun getLastDecision()
 }
 
-class Chat {
+enum class AgentType{
+    DEVELOPER,
+    QA,
+    PM,
+    GameDescription
+}
 
-    val chatMemory: ChatMemory = MessageWindowChatMemory.builder()
+class Agent (val agentType: AgentType){
+
+    private val chatMemory: ChatMemory = MessageWindowChatMemory.builder()
         .maxMessages(10)
-        .chatMemoryStore(PersistentChatMemoryStore())
+        .chatMemoryStore(PersistentChatMemoryStore(agentType))
         .build()
 
     private val model: OllamaChatModel = OllamaChatModel.builder()
@@ -33,10 +41,13 @@ class Chat {
         .chatMemory(chatMemory)
         .build()
 
+    fun getLastDecision(): String {
+        return chatMemory.messages().last().text();
+    }
 }
 
-class PersistentChatMemoryStore : ChatMemoryStore {
-    private val db: DB = DBMaker.fileDB("D:\\chat-memory.db").transactionEnable().make()
+class PersistentChatMemoryStore(val agentType: AgentType) : ChatMemoryStore {
+    private val db: DB = DBMaker.fileDB("D:\\${agentType}-memory.db").transactionEnable().make()
     private val map: MutableMap<String, String> = db.hashMap("messages", STRING, STRING).createOrOpen()
 
     override fun getMessages(memoryId: Any): List<ChatMessage> {
