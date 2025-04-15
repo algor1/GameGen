@@ -19,7 +19,7 @@ enum class AgentType{
     GameDescription
 }
 
-class Agent (private val agentType: AgentType){
+class Agent (agentType: AgentType){
 
     val chatMemory: ChatMemory = MessageWindowChatMemory.builder()
         .maxMessages(20)
@@ -32,7 +32,7 @@ class Agent (private val agentType: AgentType){
         .timeout(Duration.ofMinutes(30))
         .build()
 
-    val assistant: Assistant = AiServices.builder<Assistant>(Assistant::class.java)
+    val assistant: Assistant = AiServices.builder(Assistant::class.java)
         .chatLanguageModel(model)
         .chatMemory(chatMemory)
         .build()
@@ -42,7 +42,7 @@ class Agent (private val agentType: AgentType){
     }
 }
 
-class PersistentChatMemoryStore(private val agentType: AgentType) : ChatMemoryStore {
+class PersistentChatMemoryStore(agentType: AgentType) : ChatMemoryStore {
     private val db: DB = DBMaker.fileDB("D:\\${agentType}-memory.db").transactionEnable().make()
     private val map: MutableMap<String, String> = db.hashMap("messages", STRING, STRING).createOrOpen()
 
