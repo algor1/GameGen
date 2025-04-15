@@ -13,17 +13,13 @@ import java.time.Duration
 
 interface Assistant {
     fun chat(message: String): String
-    fun getLastDecision()
 }
 
 enum class AgentType{
-    DEVELOPER,
-    QA,
-    PM,
     GameDescription
 }
 
-class Agent (val agentType: AgentType){
+class Agent (private val agentType: AgentType){
 
     val chatMemory: ChatMemory = MessageWindowChatMemory.builder()
         .maxMessages(20)
@@ -46,7 +42,7 @@ class Agent (val agentType: AgentType){
     }
 }
 
-class PersistentChatMemoryStore(val agentType: AgentType) : ChatMemoryStore {
+class PersistentChatMemoryStore(private val agentType: AgentType) : ChatMemoryStore {
     private val db: DB = DBMaker.fileDB("D:\\${agentType}-memory.db").transactionEnable().make()
     private val map: MutableMap<String, String> = db.hashMap("messages", STRING, STRING).createOrOpen()
 

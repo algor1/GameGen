@@ -1,5 +1,4 @@
 import kotlinx.serialization.*
-import java.util.Scanner
 
 fun main() {
 
