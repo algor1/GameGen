@@ -25,8 +25,8 @@ enum class AgentType{
 
 class Agent (val agentType: AgentType){
 
-    private val chatMemory: ChatMemory = MessageWindowChatMemory.builder()
-        .maxMessages(10)
+    val chatMemory: ChatMemory = MessageWindowChatMemory.builder()
+        .maxMessages(20)
         .chatMemoryStore(PersistentChatMemoryStore(agentType))
         .build()
 
@@ -42,7 +42,7 @@ class Agent (val agentType: AgentType){
         .build()
 
     fun getLastDecision(): String {
-        return chatMemory.messages().last().text();
+        return chatMemory.messages().last().text()
     }
 }
 

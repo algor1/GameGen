@@ -4,6 +4,8 @@ import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.jsonObject
 import kotlinx.serialization.json.jsonPrimitive
 
+private const val EVALUATION_TAG = "Evaluation:"
+
 object OutputParser {
     const val SEPARATOR = "```"
     const val DELIMITER = "54693253-0db9-4334-bf25-b6a83137125a"
@@ -26,6 +28,14 @@ object OutputParser {
             }
         }
         return code
+    }
+
+
+    fun parseEvaluation(text:String): Int {
+        if (text.contains(EVALUATION_TAG))
+            return OutputParser.parse(text, EVALUATION_TAG).first().trim().toInt()
+
+        return 0
     }
 
     fun parseFiles(input: String): Map<String, String> {

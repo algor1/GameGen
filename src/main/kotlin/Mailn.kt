@@ -2,45 +2,32 @@ import kotlinx.serialization.*
 import java.util.Scanner
 
 fun main() {
-    val assistant = Agent(AgentType.PM).assistant
-    val prompts = Prompts()
-    val gameDescription = GameDescription()
-    gameDescription.create()
-    println(gameDescription.getDescription())
 
-//    val Response: String = assistant.chat(prompts.gameIdea)
-//    println(Response)
-//    return
-//    val modulesResponse: String = assistant.chat(prompts.gameIdea + prompts.prompt1)
-//    val modulesJsonInput = OutputParser.parse(modulesResponse, "json").first()
-//    val modules = OutputParser.parseModules(modulesJsonInput)
-//
-//    modules.forEach { module ->
-//        println("Module: ${module.name}")
-//        println("Description: ${module.description}")
-//        println("Technologies: ${module.technologies.joinToString(", ")}")
-//        println()
-//    }
-//
-//    val interfacesResponse = assistant.chat(prompts.prompt_interfaces)
-//    println(interfacesResponse)
-//    val interfacesJsonInput = OutputParser.parse(interfacesResponse, "json").first()
-//    val interfaces = OutputParser.parseInterfaces(interfacesJsonInput)
+    val gameDescription = GameDescription()
+    gameDescription.getDescription()
+    println(gameDescription.getDescription())
 }
 
 class GameDescription {
-    val agent = Agent(AgentType.GameDescription)
-    val assistant = agent.assistant
-    fun create() {
+    private val agent = Agent(AgentType.GameDescription)
+    private val assistant = agent.assistant
+    private val minScore = 90
+
+    private fun create() {
         println("I can create a game for you. What do you want?")
-        var request = readln()
-        var prompt =
+        val request = readln()
+        val prompt =
             "I’m creating a Unity game. $request \n Please help me define clear and concise game rules. The rules should include the game genre, goal, main mechanics, win/lose conditions, player controls, and any special features. Present it in a structured and readable format."
         assistant.chat(prompt)
-        prompt = "Evaluate the quality of the game rules description provided in step 1.\n" +
+        improve()
+    }
+
+    private fun improve() {
+        val prompt = "Evaluate the quality of the game rules description provided in last message\n" +
                 "Start your response with a score from 0 to 100, where:\n" +
                 "0 means the rules are completely unusable\n" +
                 "100 means the rules are perfect and ready for implementation\n" +
+                "Format of score: ```Evaluation: <score>```\n" +
                 "After the score, explain your evaluation:\n" +
                 "Are all essential rules clearly stated?\n" +
                 "Is the game objective understandable?\n" +
@@ -49,18 +36,34 @@ class GameDescription {
                 "Are the win and lose conditions unambiguous?\n" +
                 "Are player controls and interactions with the environment explained?\n" +
                 "Suggest any improvements or additions needed to make the rules complete and implementation-ready."
-        while (readFirstInt(assistant.chat(prompt)) < 80)
-            assistant.chat ("I agree with your suggestion. Apply them and show me the fixed rules")
+
+        while (OutputParser.parseEvaluation(assistant.chat(prompt)) < minScore)
+            assistant.chat("I agree with your suggestion. Apply them and show me the fixed rules")
     }
 
     fun getDescription() :String{
+        complete()
         return agent.getLastDecision()
     }
 
-    fun readFirstInt(text:String): Int {
-        val scan = Scanner(text)
-        val value = scan.nextInt()
-        return value
+    private fun complete(){
+        if (!created())
+            create()
+        if (findLastEvaluation() < minScore)
+            improve()
+    }
+    private fun created(): Boolean{
+        return agent.chatMemory.messages().size > 1
+    }
+
+    private fun findLastEvaluation(): Int{
+        for (message in agent.chatMemory.messages().asReversed()) {
+            val evaluation = OutputParser.parseEvaluation(message.text())
+            if (evaluation>0)
+                return evaluation
+        }
+
+        return 0
     }
 }
 
