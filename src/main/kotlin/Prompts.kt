@@ -1,4 +1,28 @@
 class Prompts {
+
+    val ameDescriptionImprovePrompt = "Evaluate the quality of the game rules description provided in last message\n" +
+            "Start your response with a score from 0 to 100, where:\n" +
+            "0 means the rules are completely unusable\n" +
+            "100 means the rules are perfect and ready for implementation\n" +
+            "Format of score: ```Evaluation: <score>```\n" +
+            "After the score, explain your evaluation:\n" +
+            "Are all essential rules clearly stated?\n" +
+            "Is the game objective understandable?\n" +
+            "Are edge cases and special situations covered?\n" +
+            "Is it clear what the player can and cannot do?\n" +
+            "Are the win and lose conditions unambiguous?\n" +
+            "Are player controls and interactions with the environment explained?\n" +
+            "Suggest any improvements or additions needed to make the rules complete and implementation-ready."
+
+
+    fun gameDescriptionCreatePrompt(): String {
+        println("I can create a game for you. What do you want?")
+        val request = readln()
+        val prompt =
+            "I’m creating a Unity game. $request \n Please help me define clear and concise game rules. The rules should include the game genre, goal, main mechanics, win/lose conditions, player controls, and any special features. Present it in a structured and readable format."
+        return prompt
+    }
+
     val gameIdea =
         "Create a responsive and modern Snake game in Unity. The game should support both desktop and mobile devices, including gesture controls for mobile users. The UI should be visually appealing and adapt seamlessly to different screen sizes.\n" +
                 "Game Rules:\n" +
