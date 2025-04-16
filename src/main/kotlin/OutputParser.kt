@@ -26,8 +26,9 @@ object OutputParser {
 
 
     fun parseEvaluation(text:String): Int {
-        if (text.contains(EVALUATION_TAG))
-            return parse(text, EVALUATION_TAG).first().trim().toInt()
+        if (text.contains(EVALUATION_TAG)) {
+            return parse(text, EVALUATION_TAG).first().trim().toIntOrNull() ?: 0
+        }
 
         return 0
     }

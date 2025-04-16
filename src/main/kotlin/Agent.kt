@@ -36,10 +36,6 @@ class Agent (agentType: AgentType){
         .chatLanguageModel(model)
         .chatMemory(chatMemory)
         .build()
-
-    fun getLastDecision(): String {
-        return chatMemory.messages().last().text()
-    }
 }
 
 class PersistentChatMemoryStore(agentType: AgentType) : ChatMemoryStore {

@@ -2,8 +2,7 @@ import kotlinx.serialization.Serializable
 
 fun main() {
     val prompts = Prompts()
-    val gameDescription = AgentJob(AgentType.GameDescription, prompts.gameDescriptionCreatePrompt(), prompts.ameDescriptionImprovePrompt, 90)
-    gameDescription.getDescription()
+    val gameDescription = AgentJob(AgentType.GameDescription, prompts.gameDescriptionCreatePrompt(), prompts.ameDescriptionImprovePrompt, 98)
     println(gameDescription.getDescription())
 }
 
