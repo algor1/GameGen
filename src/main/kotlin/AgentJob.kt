@@ -1,5 +1,5 @@
 class AgentJob(val agentType: AgentType, val creationPrompt: String, val improvePrompt: String, val minScore: Int = 90) {
-    private val agent = Agent(agentType)
+    val agent = Agent(agentType)
     private val assistant = agent.assistant
 
     private fun create() {

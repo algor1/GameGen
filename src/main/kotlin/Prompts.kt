@@ -15,13 +15,7 @@ class Prompts {
             "Suggest any improvements or additions needed to make the rules complete and implementation-ready."
 
 
-    fun gameDescriptionCreatePrompt(): String {
-        println("I can create a game for you. What do you want?")
-        val request = readln()
-        val prompt =
-            "I’m creating a Unity game. $request \n Please help me define clear and concise game rules. The rules should include the game genre, goal, main mechanics, win/lose conditions, player controls, and any special features. Present it in a structured and readable format."
-        return prompt
-    }
+    val gameDescriptionCreatePrompt = "Please help me define clear and concise game rules. The rules should include the game genre, goal, main mechanics, win/lose conditions, player controls, and any special features. Present it in a structured and readable format."
 
 //    val prompt1 = "Before proceeding, identify the key technical modules of the game, specifying:\n" +
 //            "\n" +
