@@ -2,7 +2,6 @@ private const val EVALUATION_TAG = "Evaluation:"
 
 object OutputParser {
     const val SEPARATOR = "```"
-    const val DELIMITER = "54693253-0db9-4334-bf25-b6a83137125a"
 
     fun parse(content: String, contentType: String): List<String> {
         val code = mutableListOf<String>()
