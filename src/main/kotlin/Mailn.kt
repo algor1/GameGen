@@ -1,19 +1,21 @@
 import kotlinx.serialization.Serializable
 
 fun main() {
-
-
     val prompts = Prompts()
     val gameCreatePrompt = composeFirstPrompt(prompts.gameDescriptionCreatePrompt)
-    val gameDescription = AgentJob(AgentType.GameDescription, gameCreatePrompt, prompts.gameDescriptionImprovePrompt, 98)
-    val gameDescriptionResult = gameDescription.getDescription()
+    val gameDescriptionResult:String =
+        AgentJob(AgentType.GameDescription, gameCreatePrompt, prompts.gameDescriptionImprovePrompt, 98)
+            .use {gameDescription -> gameDescription.getDescription()}
+
     println(gameDescriptionResult)
-    val visualGameDescription = AgentJob(AgentType.VisualGameDescription, gameDescriptionResult + "\n" + prompts.gameVisualDescriptionCreatePrompt, prompts.gameVisualDescriptionImprovePrompt, 98)
-    println(visualGameDescription.getDescription())
+    val visualGameDescriptionResult:String =
+        AgentJob(AgentType.VisualGameDescription, gameDescriptionResult + "\n" + prompts.gameVisualDescriptionCreatePrompt, prompts.gameVisualDescriptionImprovePrompt, 98)
+            .use{visualGameDescription -> visualGameDescription.getDescription()}
+    println(visualGameDescriptionResult)
 }
 
 private fun composeFirstPrompt(@Suppress("SameParameterValue") gameDescriptionCreatePrompt: String): String {
-    val userRequest = Agent(AgentType.GameDescription).chatMemory.messages().firstOrNull() //Check in agent memory. Looks like hack
+    val userRequest = Agent(AgentType.GameDescription).use{agent: Agent ->  agent.chatMemory.messages().firstOrNull()} //Check in agent memory. Looks like hack
 
     if (userRequest != null)
         return userRequest.toString()

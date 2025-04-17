@@ -1,4 +1,4 @@
-class AgentJob(val agentType: AgentType, val creationPrompt: String, val improvePrompt: String, val minScore: Int = 90) {
+class AgentJob(val agentType: AgentType, val creationPrompt: String, val improvePrompt: String, val minScore: Int = 90): AutoCloseable {
     val agent = Agent(agentType)
     private val assistant = agent.assistant
 
@@ -45,5 +45,9 @@ class AgentJob(val agentType: AgentType, val creationPrompt: String, val improve
                 return messages.first()
         }
         return ""
+    }
+
+    override fun close() {
+        agent.close()
     }
 }

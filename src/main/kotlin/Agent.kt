@@ -20,12 +20,22 @@ enum class AgentType{
     VisualGameDescription
 }
 
-class Agent (agentType: AgentType){
+class Agent (agentType: AgentType): AutoCloseable{
+
+    private val persistentChatMemoryStore = PersistentChatMemoryStore(agentType)
 
     val chatMemory: ChatMemory = MessageWindowChatMemory.builder()
         .maxMessages(20)
-        .chatMemoryStore(PersistentChatMemoryStore(agentType))
+        .chatMemoryStore(persistentChatMemoryStore)
         .build()
+
+    init {
+        val messages = chatMemory.messages()
+        if (messages[-1].type()==messages[-2])
+        chatMemory.clear()
+        for(message in chatMemory.messages().dropLast(1))
+            chatMemory.add(message)
+    }
 
     private val model: OllamaChatModel = OllamaChatModel.builder()
         .baseUrl("http://localhost:11434")
@@ -46,9 +56,13 @@ class Agent (agentType: AgentType){
         }
         return
     }
+
+    override fun close() {
+        persistentChatMemoryStore.close()
+    }
 }
 
-class PersistentChatMemoryStore(agentType: AgentType) : ChatMemoryStore {
+class PersistentChatMemoryStore(agentType: AgentType) : ChatMemoryStore, AutoCloseable {
     private val db: DB = DBMaker.fileDB("D:\\${agentType}-memory.db").transactionEnable().make()
     private val map: MutableMap<String, String> = db.hashMap("messages", STRING, STRING).createOrOpen()
 
@@ -67,4 +81,10 @@ class PersistentChatMemoryStore(agentType: AgentType) : ChatMemoryStore {
         map.remove(memoryId as String)
         db.commit()
     }
+
+    override fun close() {
+        db.close()
+    }
+
+
 }
