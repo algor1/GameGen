@@ -1,14 +1,18 @@
 import kotlinx.serialization.Serializable
 
 fun main() {
+
+
     val prompts = Prompts()
     val gameCreatePrompt = composeFirstPrompt(prompts.gameDescriptionCreatePrompt)
-    val gameDescription = AgentJob(AgentType.GameDescription, gameCreatePrompt, prompts.ameDescriptionImprovePrompt, 98)
-
-    println(gameDescription.getDescription())
+    val gameDescription = AgentJob(AgentType.GameDescription, gameCreatePrompt, prompts.gameDescriptionImprovePrompt, 98)
+    val gameDescriptionResult = gameDescription.getDescription()
+    println(gameDescriptionResult)
+    val visualGameDescription = AgentJob(AgentType.VisualGameDescription, gameDescriptionResult + "\n" + prompts.gameVisualDescriptionCreatePrompt, prompts.gameVisualDescriptionImprovePrompt, 98)
+    println(visualGameDescription.getDescription())
 }
 
-private fun composeFirstPrompt(gameDescriptionCreatePrompt: String): String {
+private fun composeFirstPrompt(@Suppress("SameParameterValue") gameDescriptionCreatePrompt: String): String {
     val userRequest = Agent(AgentType.GameDescription).chatMemory.messages().firstOrNull() //Check in agent memory. Looks like hack
 
     if (userRequest != null)

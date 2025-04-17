@@ -16,7 +16,8 @@ interface Assistant {
 }
 
 enum class AgentType{
-    GameDescription
+    GameDescription,
+    VisualGameDescription
 }
 
 class Agent (agentType: AgentType){
@@ -36,6 +37,15 @@ class Agent (agentType: AgentType){
         .chatLanguageModel(model)
         .chatMemory(chatMemory)
         .build()
+
+    fun PrintAllMemory(){
+        for(text in chatMemory.messages()) {
+            println("----------------------------------------------------------------")
+            println (text.type())
+            println(text.text())
+        }
+        return
+    }
 }
 
 class PersistentChatMemoryStore(agentType: AgentType) : ChatMemoryStore {
