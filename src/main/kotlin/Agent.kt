@@ -31,10 +31,13 @@ class Agent (agentType: AgentType): AutoCloseable{
 
     init {
         val messages = chatMemory.messages()
-        if (messages[-1].type()==messages[-2])
-        chatMemory.clear()
-        for(message in chatMemory.messages().dropLast(1))
-            chatMemory.add(message)
+        println("Found ${messages.size} messages in chat $agentType")
+        if (messages.size > 2 && messages[messages.size-1].type() == messages[messages.size-2].type()){
+            chatMemory.clear()
+            for(message in messages.dropLast(1))
+                chatMemory.add(message)
+        }
+        println("After initialization ${messages.size} messages in chat $agentType")
     }
 
     private val model: OllamaChatModel = OllamaChatModel.builder()

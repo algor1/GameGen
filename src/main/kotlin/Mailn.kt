@@ -1,15 +1,24 @@
 import kotlinx.serialization.Serializable
 
 fun main() {
+
     val prompts = Prompts()
     val gameCreatePrompt = composeFirstPrompt(prompts.gameDescriptionCreatePrompt)
     val gameDescriptionResult:String =
-        AgentJob(AgentType.GameDescription, gameCreatePrompt, prompts.gameDescriptionImprovePrompt, 98)
+        AgentJob(AgentType.GameDescription,
+            gameCreatePrompt,
+            prompts.gameDescriptionEvaluationPrompt,
+            prompts.gameDescriptionImprovePrompt,
+            98)
             .use {gameDescription -> gameDescription.getDescription()}
-
     println(gameDescriptionResult)
+
     val visualGameDescriptionResult:String =
-        AgentJob(AgentType.VisualGameDescription, gameDescriptionResult + "\n" + prompts.gameVisualDescriptionCreatePrompt, prompts.gameVisualDescriptionImprovePrompt, 98)
+        AgentJob(AgentType.VisualGameDescription,
+            gameDescriptionResult + "\n" + prompts.gameVisualDescriptionCreatePrompt,
+            prompts.gameVisualDescriptionEvaluationPrompt,
+            prompts.gameVisualDescriptionImprovePrompt,
+            88)
             .use{visualGameDescription -> visualGameDescription.getDescription()}
     println(visualGameDescriptionResult)
 }

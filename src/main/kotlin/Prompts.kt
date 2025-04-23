@@ -1,6 +1,6 @@
 class Prompts {
 
-    val gameDescriptionImprovePrompt = "Evaluate the quality of the game rules description provided in last message\n" +
+    val gameDescriptionEvaluationPrompt = "Evaluate the quality of the game rules description provided in last message\n" +
             "Start your response with a score from 0 to 100, where:\n" +
             "0 means the rules are completely unusable\n" +
             "100 means the rules are perfect and ready for implementation\n" +
@@ -14,6 +14,7 @@ class Prompts {
             "Are player controls and interactions with the environment explained?\n" +
             "Suggest any improvements or additions needed to make the rules complete and implementation-ready."
 
+    val gameDescriptionImprovePrompt ="\"I agree with your suggestions. Apply them and show me the fixed result rules."
 
     val gameDescriptionCreatePrompt = "Please help me define clear and concise game rules. The rules should include the game genre, goal, main mechanics, win/lose conditions, player controls, and any special features. Present it in a structured and readable format."
 
@@ -47,7 +48,7 @@ class Prompts {
             "Describe how visuals should adapt for different platforms (PC, mobile, etc.), if applicable.\n" +
             "Make the description detailed enough so an artist can begin working based only on the text."
 
-    val gameVisualDescriptionImprovePrompt = "Evaluate the quality and completeness of the game's visual description.\n" +
+    val gameVisualDescriptionEvaluationPrompt = "Evaluate the quality and completeness of the game's visual description.\n" +
             "Start your response with a score from 0 to 100, where:\n" +
             "0 means the visual description is extremely poor and unusable\n" +
             "100 means the visual description is perfect and fully ready for artists to begin working\n" +
@@ -59,6 +60,18 @@ class Prompts {
             "Is it clear how things should look, move, and behave visually?\n" +
             "Are there any missing visual components or vague parts that should be expanded?\n" +
             "Suggest improvements or clarifications that would help an artist fully understand what needs to be drawn and how it should look."
+
+    val gameVisualDescriptionImprovePrompt = "Based on the previous evaluation and feedback, improve the game’s visual description.\n" +
+            "\n" +
+            "Add all missing details mentioned in the evaluation\n" +
+            "\n" +
+            "Expand and clarify any vague or incomplete parts\n" +
+            "\n" +
+            "Ensure that every visual element of the game is fully described, including characters, enemies, objects, environments, UI elements, animations, effects, and maps\n" +
+            "\n" +
+            "Clearly describe the overall art style, including mood, colors, shapes, and visual references if needed\n" +
+            "\n" +
+            "The final result should be detailed enough that a game artist can create all assets without needing to ask for clarification."
 
 //    val prompt1 = "Before proceeding, identify the key technical modules of the game, specifying:\n" +
 //            "\n" +

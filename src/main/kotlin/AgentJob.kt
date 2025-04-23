@@ -1,4 +1,6 @@
-class AgentJob(val agentType: AgentType, val creationPrompt: String, val improvePrompt: String, val minScore: Int = 90): AutoCloseable {
+import dev.langchain4j.data.message.ChatMessageType
+
+class AgentJob(val agentType: AgentType, val creationPrompt: String, val evaluationPrompt: String, val improvePrompt: String, val minScore: Int = 90): AutoCloseable {
     val agent = Agent(agentType)
     private val assistant = agent.assistant
 
@@ -7,9 +9,9 @@ class AgentJob(val agentType: AgentType, val creationPrompt: String, val improve
     }
 
     private fun improve() {
-        while (OutputParser.parseEvaluation(assistant.chat(improvePrompt)) < minScore)
-            assistant.chat("I agree with your suggestions. Apply them and show me the fixed rules. \n" +
-                    "Expect your answer in format: ```${agentType} <the fixed rules here> ```") // should be changed to user conversation
+        while (OutputParser.parseEvaluation(assistant.chat(evaluationPrompt)) < minScore)
+            assistant.chat(improvePrompt +
+                    "\n Expect your answer in format: ```${agentType} <your answer here> ```") // should be changed to user conversation
     }
 
     fun getDescription() :String{
@@ -38,7 +40,7 @@ class AgentJob(val agentType: AgentType, val creationPrompt: String, val improve
     }
 
     private fun findLastAnswer(): String{
-        val reversedMemory = agent.chatMemory.messages().asReversed()
+        val reversedMemory = agent.chatMemory.messages().filter { it.type() == ChatMessageType.AI }.asReversed()
         for (message in reversedMemory) {
             val messages = OutputParser.parse(message.text(), agentType.toString())
             if (messages.size == 1)
