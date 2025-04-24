@@ -18,7 +18,7 @@ fun main() {
             gameDescriptionResult + "\n" + prompts.gameVisualDescriptionCreatePrompt,
             prompts.gameVisualDescriptionEvaluationPrompt,
             prompts.gameVisualDescriptionImprovePrompt,
-            88)
+            95)
             .use{visualGameDescription -> visualGameDescription.getDescription()}
     println(visualGameDescriptionResult)
 }

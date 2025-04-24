@@ -1,15 +1,19 @@
 import dev.langchain4j.data.message.ChatMessage
 import dev.langchain4j.data.message.ChatMessageDeserializer.messagesFromJson
 import dev.langchain4j.data.message.ChatMessageSerializer.messagesToJson
+import dev.langchain4j.data.message.ChatMessageType
 import dev.langchain4j.memory.ChatMemory
 import dev.langchain4j.memory.chat.MessageWindowChatMemory
+import dev.langchain4j.model.chat.ChatLanguageModel
 import dev.langchain4j.model.ollama.OllamaChatModel
 import dev.langchain4j.service.AiServices
 import dev.langchain4j.store.memory.chat.ChatMemoryStore
+import dev.langchain4j.model.openai.OpenAiChatModel
 import org.mapdb.DB
 import org.mapdb.DBMaker
 import org.mapdb.Serializer.STRING
 import java.time.Duration
+import java.io.File
 
 interface Assistant {
     fun chat(message: String): String
@@ -19,6 +23,7 @@ enum class AgentType{
     GameDescription,
     VisualGameDescription
 }
+val enableOpenAi:Boolean = true
 
 class Agent (agentType: AgentType): AutoCloseable{
 
@@ -32,7 +37,9 @@ class Agent (agentType: AgentType): AutoCloseable{
     init {
         val messages = chatMemory.messages()
         println("Found ${messages.size} messages in chat $agentType")
-        if (messages.size > 2 && messages[messages.size-1].type() == messages[messages.size-2].type()){
+
+        //Delete all user messages at the end of the chat memory. These messages may remain after an incorrect program shutdown.
+        while (messages.size > 0 && messages[messages.size-1].type() == ChatMessageType.USER){
             chatMemory.clear()
             for(message in messages.dropLast(1))
                 chatMemory.add(message)
@@ -40,25 +47,33 @@ class Agent (agentType: AgentType): AutoCloseable{
         println("After initialization ${messages.size} messages in chat $agentType")
     }
 
-    private val model: OllamaChatModel = OllamaChatModel.builder()
-        .baseUrl("http://localhost:11434")
-        .modelName("gemma3:27b")
-        .timeout(Duration.ofMinutes(30))
-        .build()
+    private val model: ChatLanguageModel = createChatModel()
+
+    private fun createChatModel(): ChatLanguageModel {
+        if (enableOpenAi){
+
+            return OpenAiChatModel.builder()
+                .apiKey(loadApiKey())
+                .modelName("gpt-4o-mini") // или gpt-4
+                .build()
+        }
+
+        return OllamaChatModel.builder()
+            .baseUrl("http://localhost:11434")
+            .modelName("qwq")
+            .timeout(Duration.ofMinutes(30))
+            .build()
+    }
+
+    private fun loadApiKey(): String {
+        val path = "C:\\Users\\alexe\\Desktop\\AIkey.txt"
+        return File(path).readText().trim() // trim() удаляет лишние пробелы и переносы строк
+    }
 
     val assistant: Assistant = AiServices.builder(Assistant::class.java)
         .chatLanguageModel(model)
         .chatMemory(chatMemory)
         .build()
-
-    fun PrintAllMemory(){
-        for(text in chatMemory.messages()) {
-            println("----------------------------------------------------------------")
-            println (text.type())
-            println(text.text())
-        }
-        return
-    }
 
     override fun close() {
         persistentChatMemoryStore.close()

@@ -5,13 +5,18 @@ class AgentJob(val agentType: AgentType, val creationPrompt: String, val evaluat
     private val assistant = agent.assistant
 
     private fun create() {
-        assistant.chat(creationPrompt + "\n Expect your answer in format: ```${agentType} <your answer here> ```")
+        println(assistant.chat(creationPrompt + "\n Expect your answer in format: ```${agentType} <your answer here> ```"))
     }
 
     private fun improve() {
-        while (OutputParser.parseEvaluation(assistant.chat(evaluationPrompt)) < minScore)
-            assistant.chat(improvePrompt +
-                    "\n Expect your answer in format: ```${agentType} <your answer here> ```") // should be changed to user conversation
+        while (evaluate() < minScore)
+            println(assistant.chat(improvePrompt + "\n Expect your answer in format: ```${agentType} <your answer here> ```")) // should be changed to acsept by user
+    }
+
+    private fun evaluate():Int {
+        val response = assistant.chat(evaluationPrompt)
+        println(response)
+        return OutputParser.parseEvaluation(response)
     }
 
     fun getDescription() :String{
