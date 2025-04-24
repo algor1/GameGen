@@ -21,7 +21,8 @@ interface Assistant {
 
 enum class AgentType{
     GameDescription,
-    VisualGameDescription
+    VisualGameDescription,
+    ObjectDescriptions
 }
 val enableOpenAi:Boolean = true
 

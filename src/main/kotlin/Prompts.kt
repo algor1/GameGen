@@ -73,6 +73,63 @@ class Prompts {
             "\n" +
             "The final result should be detailed enough that a game artist can create all assets without needing to ask for clarification."
 
+
+    val objectsDescriptionCreatePrompt = "I have a complete description of the game rules and visuals.\n" +
+            "Based on that, generate a comprehensive list of all game objects (classes) that need to be created for the game in Unity.\n" +
+            "For each object/class, include:\n" +
+            "A name\n" +
+            "A detailed description of its purpose\n" +
+            "A list of properties/fields it should contain\n" +
+            "A list of methods/actions it should perform\n" +
+            "How it interacts with other objects in the game\n" +
+            "Be sure to include:\n" +
+            "Visible objects: player, enemies, collectibles, obstacles, background layers, visual effects\n" +
+            "UI elements: buttons, menus, score displays, health bars, game over screens, pause menu, and any other HUD components\n" +
+            "Input handling: include all relevant control schemes (keyboard, mouse, touch, etc.) and create objects/classes responsible for processing input\n" +
+            "Logic and systems: game manager, event system, state machine, collision detection, level management, audio manager, camera controller, background/map scroller\n" +
+            "Any systems for managing game states, scene transitions, or multiplayer components (if applicable)\n" +
+            "All objects should be instantiated programmatically via scripts, and assume that all visual assets (sprites, prefabs, UI elements) will be created and assigned separately.\n" +
+            "Do not write any code — only the full structural and behavioral description of each object."
+
+    val objectsDescriptionEvaluatePrompt = "Evaluate the completeness and quality of the object (class) descriptions for a Unity game project.\n" +
+            "Start your response with a score from 0 to 100, where:\n" +
+            "0 means the descriptions are very incomplete and unusable for development\n" +
+            "100 means the descriptions are fully complete and sufficient to start coding and building the game\n" +
+            "Format of score: ```Evaluation: <score>```\n" +
+            "Then analyze the following aspects in detail:\n" +
+            "Object Coverage:\n" +
+            "Are all necessary game objects and systems included (visual, logical, UI, input, background, audio, etc.)?\n" +
+            "Are there any missing components or systems that should be defined?\n" +
+            "Action Completeness:\n" +
+            "Are the actions and behaviors of each object clearly and fully described?\n" +
+            "Is it clear what each object does during gameplay?\n" +
+            "Interaction Clarity:\n" +
+            "Are interactions between objects clearly explained?\n" +
+            "Can we understand how objects communicate and affect each other during gameplay?\n" +
+            "Property Definitions:\n" +
+            "Are all important properties/fields of each object described?\n" +
+            "Is it clear what data each class holds?\n" +
+            "Implementation Readiness:\n" +
+            "Is the description complete enough for a developer to begin implementing the game in Unity?\n" +
+            "Would a developer be able to create scripts, systems, and game logic based solely on this document?\n" +
+            "Provide specific suggestions for what to improve, clarify, or expand to make the descriptions fully implementation-ready."
+
+    val objectsDescriptionImprovePrompt = "Based on the evaluation and feedback received about the game object descriptions, improve and update the list of game objects (classes) accordingly.\n" +
+            "Fix all issues, add any missing objects or systems\n" +
+            "Expand or clarify any vague or incomplete object descriptions\n" +
+            "Make sure each object includes:\n" +
+            "A clear and specific name\n" +
+            "A detailed description of its purpose and role in the game\n" +
+            "A complete list of properties/fields (with types and purpose)\n" +
+            "A complete list of methods/actions (with their responsibilities)\n" +
+            "A clear explanation of interactions with other game objects or systems\n" +
+            "Ensure that the final result:\n" +
+            "Covers all aspects of the game, including visual objects, logic systems, input, UI, camera, background, audio, and game state\n" +
+            "Is structured and detailed enough for a developer to begin implementing all systems and gameplay logic in Unity using scripts\n" +
+            "Assumes that all objects will be instantiated programmatically, and that all visual assets (sprites, prefabs, UI elements) will be created separately\n" +
+            "Return a fully updated and improved object list, ready for implementation."
+
+
 //    val prompt1 = "Before proceeding, identify the key technical modules of the game, specifying:\n" +
 //            "\n" +
 //            "Module Name: A short identifier for the module (e.g., \"Game Logic\", \"Rendering\", \"Networking\").\n" +

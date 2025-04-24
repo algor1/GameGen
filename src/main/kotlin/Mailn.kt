@@ -21,6 +21,15 @@ fun main() {
             95)
             .use{visualGameDescription -> visualGameDescription.getDescription()}
     println(visualGameDescriptionResult)
+
+    val objectDescriptionsListResult: String =
+        AgentJob(AgentType.ObjectDescriptions,
+        gameDescriptionResult + visualGameDescriptionResult+ "\n" + prompts.objectsDescriptionCreatePrompt,
+        prompts.objectsDescriptionEvaluatePrompt,
+        prompts.objectsDescriptionImprovePrompt,
+        95)
+        .use{objectDescriptionsList -> objectDescriptionsList.getDescription()}
+    println(objectDescriptionsListResult)
 }
 
 private fun composeFirstPrompt(@Suppress("SameParameterValue") gameDescriptionCreatePrompt: String): String {
