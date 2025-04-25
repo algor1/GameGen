@@ -1,3 +1,4 @@
+import dev.langchain4j.data.message.ChatMessage
 import dev.langchain4j.data.message.ChatMessageType
 
 class AgentJob(val agentType: AgentType, val creationPrompt: String, val evaluationPrompt: String, val improvePrompt: String, val minScore: Int = 90): AutoCloseable {
@@ -5,19 +6,36 @@ class AgentJob(val agentType: AgentType, val creationPrompt: String, val evaluat
     private val assistant = agent.assistant
 
     private fun create() {
-        println(assistant.chat(creationPrompt + "\n Expect your answer in format: ```${agentType} <your answer here> ```"))
+        println(assistant.chat(creationPrompt + "\n Expect your answer in format: \n```${agentType}\n <your answer here> \n```"))
     }
 
     private fun improve() {
         while (evaluate() < minScore)
-            println(assistant.chat(improvePrompt + "\n Expect your answer in format: ```${agentType} <your answer here> ```")) // should be changed to acsept by user
+            println(assistant.chat(improvePrompt + "\n Expect your answer in format: \n```${agentType}\n <your answer here> \n```")) // should be changed to accept by user
     }
 
     private fun evaluate():Int {
+        removePreviousResultsFromMemory()
         val response = assistant.chat(evaluationPrompt)
         println(response)
         return OutputParser.parseEvaluation(response)
     }
+
+    private fun removePreviousResultsFromMemory() {
+        val messages = agent.chatMemory.messages()
+        if (messages.size > 5 && isAiResultResponse(messages[1]) && isAiEvaluationResponse(messages[3])) {
+            val filtered = messages.filterIndexed { index, _ -> index !in 1..4 }.toList()
+            agent.chatMemory.clear()
+            for (message in filtered)
+                agent.chatMemory.add(message)
+        }
+    }
+
+    private fun isAiResultResponse(message: ChatMessage) =
+        message.type() == ChatMessageType.AI && OutputParser.parse(message.text(), agentType.toString()).isNotEmpty()
+
+    private fun isAiEvaluationResponse(message: ChatMessage) =
+        message.type() == ChatMessageType.AI && OutputParser.parseEvaluation(message.text()) > 0
 
     fun getDescription() :String{
         complete()

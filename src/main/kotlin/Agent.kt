@@ -40,9 +40,10 @@ class Agent (agentType: AgentType): AutoCloseable{
         println("Found ${messages.size} messages in chat $agentType")
 
         //Delete all user messages at the end of the chat memory. These messages may remain after an incorrect program shutdown.
-        while (messages.size > 0 && messages[messages.size-1].type() == ChatMessageType.USER){
+        while (chatMemory.messages().size > 0 && chatMemory.messages()[chatMemory.messages().size-1].type() == ChatMessageType.USER){
+            val dropLast = chatMemory.messages().dropLast(1)
             chatMemory.clear()
-            for(message in messages.dropLast(1))
+            for(message in dropLast)
                 chatMemory.add(message)
         }
         println("After initialization ${messages.size} messages in chat $agentType")
