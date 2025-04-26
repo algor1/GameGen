@@ -30,6 +30,15 @@ fun main() {
         95)
         .use{objectDescriptionsList -> objectDescriptionsList.getDescription()}
     println(objectDescriptionsListResult)
+
+    val objectIntarfacesListResult: String =
+        AgentJob(AgentType.ObjectIntarfaces,
+            gameDescriptionResult + "\n" + visualGameDescriptionResult+ "\n" + objectDescriptionsListResult + "\n"+ prompts.objectIntarfacesCreatePrompt,
+            prompts.objectIntarfacesEvaluatePrompt,
+            prompts.objectIntarfacesImprovePrompt,
+            95)
+            .use{objectIntarfacesList -> objectIntarfacesList.getDescription()}
+    println(objectIntarfacesListResult)
 }
 
 private fun composeFirstPrompt(@Suppress("SameParameterValue") gameDescriptionCreatePrompt: String): String {

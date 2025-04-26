@@ -129,6 +129,49 @@ class Prompts {
             "Assumes that all objects will be instantiated programmatically, and that all visual assets (sprites, prefabs, UI elements) will be created separately\n" +
             "Return a fully updated and improved object list, ready for implementation."
 
+    val objectIntarfacesCreatePrompt ="Based on the detailed descriptions of the game objects (classes) created for a Unity project, generate C# interfaces (interface) for each object.\n" +
+            "For each interface, follow these rules:\n" +
+            "The interface must fully reflect the logic and behavior of the corresponding object\n" +
+            "Include all methods/actions that the object is supposed to perform\n" +
+            "Include all important properties/fields that the object needs to store and expose\n" +
+            "Only define signatures — no implementation details\n" +
+            "Use C# syntax, matching Unity development practices\n" +
+            "Assume that all objects and UI elements will be instantiated programmatically via scripts, and all visual assets (sprites, prefabs, UI components) will be prepared separately\n" +
+            "Naming conventions:\n" +
+            "Interface names should start with a capital I followed by the object name (e.g., IPlayer, IEnemy, IGameManager)\n" +
+            "Use properties instead of public fields whenever possible\n" +
+            "Output the interface definitions grouped logically if needed (e.g., player-related, UI-related, system-related).\n" +
+            "Do not include any unrelated code. Only clean and properly structured C# interfaces ready for use in Unity development."
+
+    val objectIntarfacesEvaluatePrompt = "Evaluate the completeness and quality of the generated C# interfaces for a Unity game project.\n" +
+            "Start your response with a score from 0 to 100, where:\n" +
+            "0 means the interfaces are very incomplete and unusable\n" +
+            "100 means the interfaces are fully complete, correctly represent the game logic, and are ready for implementation\n" +
+            "Format of score: ```Evaluation: <score>```\n" +
+            "Then provide detailed feedback based on the following points:\n" +
+            "Consistency with Object Descriptions:\n" +
+            "Do the interfaces correctly reflect all described actions (methods) and data (properties/fields) for each object?\n" +
+            "Is anything from the original object descriptions missing in the interfaces?\n" +
+            "Method and Property Completeness:\n" +
+            "Are all necessary methods and properties included?\n" +
+            "Are their signatures clear and correctly defined?\n" +
+            "Logical Structure:\n" +
+            "Are the responsibilities of each interface logically grouped and clearly separated?\n" +
+            "Are there any interfaces that are overloaded with too many responsibilities and should be split?\n" +
+            "Implementation Readiness:\n" +
+            "Based on the interfaces alone, is it possible to start implementing all game objects, systems, and UI elements?\n" +
+            "Would a Unity developer have enough information from these interfaces to build a working version of the game’s logic?\n" +
+            "Suggest specific improvements if anything needs to be added, corrected, clarified, or better structured to ensure the interfaces fully support the game's development."
+
+    val objectIntarfacesImprovePrompt = "Based on the evaluation and feedback about the completeness and quality of the C# interfaces for the Unity game project, improve and update the interfaces as follows:\n" +
+            "Fix all identified issues\n" +
+            "Add any missing methods and properties based on the original object descriptions\n" +
+            "Correct or clarify any method signatures or property definitions if needed\n" +
+            "Ensure that each interface accurately reflects the intended behavior and data for its corresponding object\n" +
+            "Refactor any interfaces that are overloaded with too many responsibilities (apply separation if necessary)\n" +
+            "Maintain clean, logical structure and proper Unity/C# naming conventions (interface names start with I)\n" +
+            "Ensure that after the corrections, the interfaces are fully ready for direct use in the implementation of all game logic, systems, and UI components\n" +
+            "Output the full corrected and improved set of interfaces in C# syntax, without any additional commentary."
 
 //    val prompt1 = "Before proceeding, identify the key technical modules of the game, specifying:\n" +
 //            "\n" +
