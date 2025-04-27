@@ -163,15 +163,18 @@ class Prompts {
             "Would a Unity developer have enough information from these interfaces to build a working version of the game’s logic?\n" +
             "Suggest specific improvements if anything needs to be added, corrected, clarified, or better structured to ensure the interfaces fully support the game's development."
 
-    val objectIntarfacesImprovePrompt = "Based on the evaluation and feedback about the completeness and quality of the C# interfaces for the Unity game project, improve and update the interfaces as follows:\n" +
-            "Fix all identified issues\n" +
-            "Add any missing methods and properties based on the original object descriptions\n" +
-            "Correct or clarify any method signatures or property definitions if needed\n" +
-            "Ensure that each interface accurately reflects the intended behavior and data for its corresponding object\n" +
-            "Refactor any interfaces that are overloaded with too many responsibilities (apply separation if necessary)\n" +
-            "Maintain clean, logical structure and proper Unity/C# naming conventions (interface names start with I)\n" +
-            "Ensure that after the corrections, the interfaces are fully ready for direct use in the implementation of all game logic, systems, and UI components\n" +
-            "Output the full corrected and improved set of interfaces in C# syntax, without any additional commentary."
+    val objectIntarfacesImprovePrompt = "Based on the latest evaluation and feedback, do not simply fix the reported mistakes.\n" +
+            "Actively improve the C# interfaces for the Unity game project by:\n" +
+            "Adding any missing methods, properties, or interfaces that are necessary even if they were not explicitly pointed out\n" +
+            "Refactoring any interfaces that have too many responsibilities (apply interface segregation)\n" +
+            "Introducing base interfaces where multiple objects share common behaviors (e.g., IMovable, IDamageable, ICollectible)\n" +
+            "Ensuring that every class described can be fully implemented just by using its interface\n" +
+            "Enhancing the flexibility and scalability of the system (following SOLID principles where applicable)\n" +
+            "Considering real-world Unity development practices (e.g., lifecycle events, input handling separation, dependency injection patterns)\n" +
+            "The goal is to raise the quality to 100/100:\n" +
+            "Fully covering all described behaviors and data\n" +
+            "Building a clean, maintainable, and expandable interface architecture\n" +
+            "Output the complete corrected and improved set of C# interfaces, organized logically, and ready for immediate use in development."
 
 //    val prompt1 = "Before proceeding, identify the key technical modules of the game, specifying:\n" +
 //            "\n" +
