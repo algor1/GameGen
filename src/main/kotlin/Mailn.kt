@@ -32,7 +32,7 @@ fun main() {
     println(objectDescriptionsListResult)
 
     val objectIntarfacesListResult: String =
-        AgentJob(AgentType.ObjectIntarfaces,
+        AgentJob(AgentType.ObjectInterfaces,
             gameDescriptionResult + "\n" + visualGameDescriptionResult+ "\n" + objectDescriptionsListResult + "\n"+ prompts.objectIntarfacesCreatePrompt,
             prompts.objectIntarfacesEvaluatePrompt,
             prompts.objectIntarfacesImprovePrompt,

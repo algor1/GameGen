@@ -23,7 +23,7 @@ enum class AgentType{
     GameDescription,
     VisualGameDescription,
     ObjectDescriptions,
-    ObjectIntarfaces
+    ObjectInterfaces
 }
 val enableOpenAi:Boolean = true
 
@@ -47,7 +47,7 @@ class Agent (agentType: AgentType): AutoCloseable{
             for(message in dropLast)
                 chatMemory.add(message)
         }
-        println("After initialization ${messages.size} messages in chat $agentType")
+        println("After initialization ${chatMemory.messages().size} messages in chat $agentType")
     }
 
     private val model: ChatLanguageModel = createChatModel()

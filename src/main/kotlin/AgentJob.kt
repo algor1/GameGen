@@ -6,12 +6,16 @@ class AgentJob(val agentType: AgentType, val creationPrompt: String, val evaluat
     private val assistant = agent.assistant
 
     private fun create() {
-        println(assistant.chat(creationPrompt + "\n Expect your answer in format: \n```${agentType}\n <your answer here> \n```"))
+        println(assistant.chat(creationPrompt + "\n Return your answer fully wrapped in a markdown code block. Begin with: \n" +
+                "```${agentType}\n End with:\n" +
+                "```"))
     }
 
     private fun improve() {
         while (evaluate() < minScore)
-            println(assistant.chat(improvePrompt + "\n Expect your answer in format: \n```${agentType}\n <your answer here> \n```")) // should be changed to accept by user
+            println(assistant.chat(improvePrompt + "\n Return your answer fully wrapped in a markdown code block. Begin with: \n" +
+                    "```${agentType}\n End with:\n" +
+                    "```")) // should be changed to accept by user
     }
 
     private fun evaluate():Int {
@@ -67,7 +71,7 @@ class AgentJob(val agentType: AgentType, val creationPrompt: String, val evaluat
         for (message in reversedMemory) {
             val messages = OutputParser.parse(message.text(), agentType.toString())
             if (messages.size == 1)
-                return messages.first()
+                return message.text()
         }
         return ""
     }
