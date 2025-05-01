@@ -31,14 +31,18 @@ fun main() {
         .use{objectDescriptionsList -> objectDescriptionsList.getDescription()}
     println(objectDescriptionsListResult)
 
-    val objectIntarfacesListResult: String =
+    val objectInterfacesListResult: String =
         AgentJob(AgentType.ObjectInterfaces,
             gameDescriptionResult + "\n" + visualGameDescriptionResult+ "\n" + objectDescriptionsListResult + "\n"+ prompts.objectIntarfacesCreatePrompt,
             prompts.objectIntarfacesEvaluatePrompt,
             prompts.objectIntarfacesImprovePrompt,
             95)
             .use{objectIntarfacesList -> objectIntarfacesList.getDescription()}
-    println(objectIntarfacesListResult)
+    println(objectInterfacesListResult)
+
+    val agent = Agent(AgentType.GameDescription)
+    val saveResult = agent.assistant.chat(prompts.saveInteafacesPrompt)
+    println(saveResult)
 }
 
 private fun composeFirstPrompt(@Suppress("SameParameterValue") gameDescriptionCreatePrompt: String): String {

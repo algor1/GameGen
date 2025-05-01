@@ -57,7 +57,8 @@ class Agent (agentType: AgentType): AutoCloseable{
 
             return OpenAiChatModel.builder()
                 .apiKey(loadApiKey())
-                .modelName("gpt-4o-mini") // или gpt-4
+                .modelName("gpt-4o-mini")
+
                 .build()
         }
 
@@ -76,6 +77,7 @@ class Agent (agentType: AgentType): AutoCloseable{
     val assistant: Assistant = AiServices.builder(Assistant::class.java)
         .chatLanguageModel(model)
         .chatMemory(chatMemory)
+        .tools(FileSaveTool())
         .build()
 
     override fun close() {

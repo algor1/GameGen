@@ -1,4 +1,4 @@
-import dev.langchain4j.tools.Tool
+import dev.langchain4j.agent.tool.Tool
 import java.io.IOException
 import java.nio.file.Files
 import java.nio.file.Path

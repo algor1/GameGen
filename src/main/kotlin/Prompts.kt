@@ -176,6 +176,14 @@ class Prompts {
             "Building a clean, maintainable, and expandable interface architecture\n" +
             "Output the complete corrected and improved set of C# interfaces, organized logically, and ready for immediate use in development."
 
+    val saveInteafacesPrompt = "Split the provided C# interfaces into separate files, one for each interface.\n" +
+            "Use the interface name as the file name (e.g., IPlayer.cs, IGameManager.cs, etc.)\n" +
+            "Each file should contain only one interface, using correct C# syntax\n" +
+            "Assume Unity conventions, such as adding necessary using directives (using UnityEngine;, etc.) if needed\n" +
+            "Use the FileSaveTool to save each interface into its own file\n" +
+            "Do not include any unrelated code or text outside the interface definition\n" +
+            "Output only the file-saving commands, no explanations or commentary."
+
 //    val prompt1 = "Before proceeding, identify the key technical modules of the game, specifying:\n" +
 //            "\n" +
 //            "Module Name: A short identifier for the module (e.g., \"Game Logic\", \"Rendering\", \"Networking\").\n" +
