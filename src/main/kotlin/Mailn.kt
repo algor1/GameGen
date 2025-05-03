@@ -1,5 +1,8 @@
 import kotlinx.serialization.Serializable
 
+const val workDir = "D:\\GameGenOutput\\"
+const val aiGeneratedSubDir = "AIGenerated"
+
 fun main() {
 
     val prompts = Prompts()
@@ -40,8 +43,8 @@ fun main() {
             .use{objectIntarfacesList -> objectIntarfacesList.getDescription()}
     println(objectInterfacesListResult)
 
-    val agent = Agent(AgentType.GameDescription)
-    val saveResult = agent.assistant.chat(prompts.saveInteafacesPrompt)
+    val agent = Agent(AgentType.InterfacesSaver)
+    val saveResult = agent.assistant.chat(prompts.saveInteafacesPrompt + objectInterfacesListResult)
     println(saveResult)
 }
 

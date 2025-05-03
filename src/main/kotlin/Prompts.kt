@@ -147,7 +147,7 @@ class Prompts {
             "Start your response with a score from 0 to 100, where:\n" +
             "0 means the interfaces are very incomplete and unusable\n" +
             "100 means the interfaces are fully complete, correctly represent the game logic, and are ready for implementation\n" +
-            "Format of score: ```Evaluation: <score>```\n" +
+            "Format of score: ```Evaluation: <score> ``` \n" +
             "Then provide detailed feedback based on the following points:\n" +
             "Consistency with Object Descriptions:\n" +
             "Do the interfaces correctly reflect all described actions (methods) and data (properties/fields) for each object?\n" +
@@ -171,18 +171,15 @@ class Prompts {
             "Ensuring that every class described can be fully implemented just by using its interface\n" +
             "Enhancing the flexibility and scalability of the system (following SOLID principles where applicable)\n" +
             "Considering real-world Unity development practices (e.g., lifecycle events, input handling separation, dependency injection patterns)\n" +
-            "The goal is to raise the quality to 100/100:\n" +
             "Fully covering all described behaviors and data\n" +
             "Building a clean, maintainable, and expandable interface architecture\n" +
             "Output the complete corrected and improved set of C# interfaces, organized logically, and ready for immediate use in development."
 
-    val saveInteafacesPrompt = "Split the provided C# interfaces into separate files, one for each interface.\n" +
-            "Use the interface name as the file name (e.g., IPlayer.cs, IGameManager.cs, etc.)\n" +
-            "Each file should contain only one interface, using correct C# syntax\n" +
-            "Assume Unity conventions, such as adding necessary using directives (using UnityEngine;, etc.) if needed\n" +
-            "Use the FileSaveTool to save each interface into its own file\n" +
-            "Do not include any unrelated code or text outside the interface definition\n" +
-            "Output only the file-saving commands, no explanations or commentary."
+    val saveInteafacesPrompt = "Please save each of the following C# interface definitions into a separate .cs file using FileSaveTool.\n" +
+            "The filename for each file should exactly match the interface name (e.g., IPlayer.cs, IGameManager.cs)\n" +
+            "Each file should contain only one interface in valid C# syntax\n" +
+            "Include necessary using statements if required (like using UnityEngine;)\n" +
+            "Here is the full list of interfaces:\n"
 
 //    val prompt1 = "Before proceeding, identify the key technical modules of the game, specifying:\n" +
 //            "\n" +
