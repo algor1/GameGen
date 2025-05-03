@@ -36,16 +36,38 @@ fun main() {
 
     val objectInterfacesListResult: String =
         AgentJob(AgentType.ObjectInterfaces,
-            gameDescriptionResult + "\n" + visualGameDescriptionResult+ "\n" + objectDescriptionsListResult + "\n"+ prompts.objectIntarfacesCreatePrompt,
-            prompts.objectIntarfacesEvaluatePrompt,
-            prompts.objectIntarfacesImprovePrompt,
+            gameDescriptionResult + "\n" + visualGameDescriptionResult+ "\n" + objectDescriptionsListResult + "\n"+ prompts.objectInterfacesCreatePrompt,
+            prompts.objectInterfacesEvaluatePrompt,
+            prompts.objectInterfacesImprovePrompt,
             95)
             .use{objectIntarfacesList -> objectIntarfacesList.getDescription()}
     println(objectInterfacesListResult)
 
     val agent = Agent(AgentType.InterfacesSaver)
-    val saveResult = agent.assistant.chat(prompts.saveInteafacesPrompt + objectInterfacesListResult)
-    println(saveResult)
+    if (agent.chatMemory.messages().any { it.text().contains("File saved to") }.not()) {
+        val saveResult = agent.assistant.chat(prompts.saveInterfacesPrompt + objectInterfacesListResult)
+        println(saveResult)
+    }
+
+    val interfacesTestsListResult: String =
+        AgentJob(AgentType.InterfacesTests,
+            gameDescriptionResult + "\n" + visualGameDescriptionResult+ "\n" + objectDescriptionsListResult + "\n"+ objectInterfacesListResult + "\n" + prompts.interfacesTestsCreatePrompt,
+            prompts.interfacesTestsEvaluatePrompt,
+            prompts.interfacesTestsImprovePrompt,
+            95)
+            .use{interfacesTestsList -> interfacesTestsList.getDescription()}
+    println(interfacesTestsListResult)
+
+    val implementationListResult: String =
+        AgentJob(AgentType.Implementation,
+            objectDescriptionsListResult + "\n"+ objectInterfacesListResult + "\n"+ interfacesTestsListResult +"\n"+ prompts.implementationCreatePrompt,
+            prompts.implementationEvaluatePrompt,
+            prompts.implementationImprovePrompt,
+            95)
+            .use{implementationList -> implementationList.getDescription()}
+    println(implementationListResult)
+
+
 }
 
 private fun composeFirstPrompt(@Suppress("SameParameterValue") gameDescriptionCreatePrompt: String): String {

@@ -24,7 +24,9 @@ enum class AgentType{
     VisualGameDescription,
     ObjectDescriptions,
     ObjectInterfaces,
-    InterfacesSaver
+    InterfacesSaver,
+    InterfacesTests,
+    Implementation
 }
 val enableOpenAi:Boolean = true
 
@@ -59,7 +61,7 @@ class Agent (agentType: AgentType): AutoCloseable{
             return OpenAiChatModel.builder()
                 .apiKey(loadApiKey())
                 .modelName("gpt-4.1-mini")
-
+                .timeout(Duration.ofMinutes(10))
                 .build()
         }
 
