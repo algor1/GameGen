@@ -1,5 +1,4 @@
 import org.junit.jupiter.api.*
-import org.junit.jupiter.api.io.TempDir
 import java.nio.file.Files
 import java.nio.file.Path
 import kotlin.io.path.readText
@@ -11,7 +10,7 @@ class FileSaveToolTest {
     private val tool = FileSaveTool()
 
     @Test
-    fun `should save file successfully`(@TempDir tempDir: Path) {
+    fun `should save file successfully`() {
         // Arrange
         val filePath = "test.txt"
         val fullPath = Path.of(workDir, aiGeneratedSubDir, filePath)
@@ -27,7 +26,7 @@ class FileSaveToolTest {
     }
 
     @Test
-    fun `should create nested directories and save file`(@TempDir tempDir: Path) {
+    fun `should create nested directories and save file`() {
         // Arrange
 
         val nestedPath = "subdir1\\subdir2\\file.txt"
@@ -35,7 +34,7 @@ class FileSaveToolTest {
         val fullPath = Path.of(workDir, aiGeneratedSubDir, nestedPath)
 
         // Act
-        val result = tool.saveFile(nestedPath.toString(), content)
+        val result = tool.saveFile(nestedPath, content)
 
         // Assert
         assertTrue(Files.exists(fullPath))
