@@ -23,7 +23,8 @@ enum class AgentType{
     GameDescription,
     VisualGameDescription,
     ObjectDescriptions,
-    ObjectInterfaces
+    ObjectInterfaces,
+    InterfacesSaver
 }
 val enableOpenAi:Boolean = true
 
@@ -57,7 +58,7 @@ class Agent (agentType: AgentType): AutoCloseable{
 
             return OpenAiChatModel.builder()
                 .apiKey(loadApiKey())
-                .modelName("gpt-4o-mini")
+                .modelName("gpt-4.1-mini")
 
                 .build()
         }
@@ -86,7 +87,7 @@ class Agent (agentType: AgentType): AutoCloseable{
 }
 
 class PersistentChatMemoryStore(agentType: AgentType) : ChatMemoryStore, AutoCloseable {
-    private val db: DB = DBMaker.fileDB("D:\\${agentType}-memory.db").transactionEnable().make()
+    private val db: DB = DBMaker.fileDB("$workDir${agentType}-memory.db").transactionEnable().make()
     private val map: MutableMap<String, String> = db.hashMap("messages", STRING, STRING).createOrOpen()
 
     override fun getMessages(memoryId: Any): List<ChatMessage> {

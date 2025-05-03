@@ -17,6 +17,7 @@ dependencies {
     implementation 'org.slf4j:slf4j-simple:2.0.9'
     implementation 'org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.3'
     implementation 'org.mapdb:mapdb:3.1.0'
+    testImplementation "org.jetbrains.kotlin:kotlin-test:2.1.0"
 }
 
 test {
