@@ -210,14 +210,22 @@ class Prompts {
                 "Provide a score from 0 to 100, where:\n" +
                 "0 means the tests are completely inadequate\n" +
                 "100 means the tests are perfect and nothing needs to be improved\n" +
-                "Format of score: ```Evaluation: <score> ``` \n" +
-                "In your evaluation, consider the following criteria:\n" +
+                "⚠\uFE0F Important formatting requirement:\n" +
+                "You must output the score using exactly the following format and nothing else inside the code block:\n" +
+                "```Evaluation: \n" +
+                "<score>\n" +
+                "```\n" +
+                "Do not include any extra whitespace, newlines, or commentary inside the code block.\n" +
+                "After the code block, provide your detailed analysis and include:\n" +
+                "Any missing test cases\n" +
+                "Redundant or low-value tests\n" +
+                "Design improvements\n" +
+                "In your evaluation, consider:\n" +
                 "Do the tests cover all methods and properties in the interfaces?\n" +
                 "Are valid, invalid, and edge cases tested where appropriate?\n" +
                 "Are the tests clear, maintainable, and logically organized?\n" +
                 "Do the tests help ensure the interface contract is fully validated?\n" +
                 "Are the tests using appropriate mock objects or test doubles where needed?\n" +
-                "After the score, list any missing test cases, redundant or low-value tests, or design improvements that should be made.\n" +
                 "The goal is to ensure the tests provide full confidence that any implementation of the interface will behave correctly in production."
     val interfacesTestsImprovePrompt =
         "Based on the feedback and score given in the previous evaluation of the unit tests for the C# interfaces, improve and extend the test suite.\n" +
