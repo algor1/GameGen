@@ -8,7 +8,7 @@ fun main() {
     val prompts = Prompts()
     val gameCreatePrompt = composeFirstPrompt(prompts.gameDescriptionCreatePrompt)
     val gameDescriptionResult:String =
-        AgentJob(AgentType.GameDescription,
+        AgentJob(AgentType.GameDescription.toString(),
             gameCreatePrompt,
             prompts.gameDescriptionEvaluationPrompt,
             prompts.gameDescriptionImprovePrompt,
@@ -17,7 +17,7 @@ fun main() {
     println(gameDescriptionResult)
 
     val visualGameDescriptionResult:String =
-        AgentJob(AgentType.VisualGameDescription,
+        AgentJob(AgentType.VisualGameDescription.toString(),
             gameDescriptionResult + "\n" + prompts.gameVisualDescriptionCreatePrompt,
             prompts.gameVisualDescriptionEvaluationPrompt,
             prompts.gameVisualDescriptionImprovePrompt,
@@ -26,7 +26,7 @@ fun main() {
     println(visualGameDescriptionResult)
 
     val objectDescriptionsListResult: String =
-        AgentJob(AgentType.ObjectDescriptions,
+        AgentJob(AgentType.ObjectDescriptions.toString(),
         gameDescriptionResult + visualGameDescriptionResult+ "\n" + prompts.objectsDescriptionCreatePrompt,
         prompts.objectsDescriptionEvaluatePrompt,
         prompts.objectsDescriptionImprovePrompt,
@@ -35,7 +35,7 @@ fun main() {
     println(objectDescriptionsListResult)
 
     val objectInterfacesListResult: String =
-        AgentJob(AgentType.ObjectInterfaces,
+        AgentJob(AgentType.ObjectInterfaces.toString(),
             gameDescriptionResult + "\n" + visualGameDescriptionResult+ "\n" + objectDescriptionsListResult + "\n"+ prompts.objectInterfacesCreatePrompt,
             prompts.objectInterfacesEvaluatePrompt,
             prompts.objectInterfacesImprovePrompt,
@@ -43,35 +43,37 @@ fun main() {
             .use{objectIntarfacesList -> objectIntarfacesList.getDescription()}
     println(objectInterfacesListResult)
 
-    val agent = Agent(AgentType.InterfacesSaver)
+    val agent = Agent(AgentType.InterfacesSaver.toString())
     if (agent.chatMemory.messages().any { it.text().contains("File saved to") }.not()) {
         val saveResult = agent.assistant.chat(prompts.saveInterfacesPrompt + objectInterfacesListResult)
         println(saveResult)
     }
 
-    val interfacesTestsListResult: String =
-        AgentJob(AgentType.InterfacesTests,
-            gameDescriptionResult + "\n" + visualGameDescriptionResult+ "\n" + objectDescriptionsListResult + "\n"+ objectInterfacesListResult + "\n" + prompts.interfacesTestsCreatePrompt,
-            prompts.interfacesTestsEvaluatePrompt,
-            prompts.interfacesTestsImprovePrompt,
-            95)
-            .use{interfacesTestsList -> interfacesTestsList.getDescription()}
-    println(interfacesTestsListResult)
 
-    val implementationListResult: String =
-        AgentJob(AgentType.Implementation,
-            objectDescriptionsListResult + "\n"+ objectInterfacesListResult + "\n"+ interfacesTestsListResult +"\n"+ prompts.implementationCreatePrompt,
-            prompts.implementationEvaluatePrompt,
-            prompts.implementationImprovePrompt,
-            95)
-            .use{implementationList -> implementationList.getDescription()}
-    println(implementationListResult)
+
+//    val interfacesTestsListResult: String =
+//        AgentJob(AgentType.InterfacesTests.toString(),
+//            gameDescriptionResult + "\n" + visualGameDescriptionResult+ "\n" + objectDescriptionsListResult + "\n"+ objectInterfacesListResult + "\n" + prompts.interfacesTestsCreatePrompt,
+//            prompts.interfacesTestsEvaluatePrompt,
+//            prompts.interfacesTestsImprovePrompt,
+//            95)
+//            .use{interfacesTestsList -> interfacesTestsList.getDescription()}
+//    println(interfacesTestsListResult)
+//
+//    val implementationListResult: String =
+//        AgentJob(AgentType.Implementation.toString(),
+//            objectDescriptionsListResult + "\n"+ objectInterfacesListResult + "\n"+ interfacesTestsListResult +"\n"+ prompts.implementationCreatePrompt,
+//            prompts.implementationEvaluatePrompt,
+//            prompts.implementationImprovePrompt,
+//            95)
+//            .use{implementationList -> implementationList.getDescription()}
+//    println(implementationListResult)
 
 
 }
 
 private fun composeFirstPrompt(@Suppress("SameParameterValue") gameDescriptionCreatePrompt: String): String {
-    val userRequest = Agent(AgentType.GameDescription).use{agent: Agent ->  agent.chatMemory.messages().firstOrNull()} //Check in agent memory. Looks like hack
+    val userRequest = Agent(AgentType.GameDescription.toString()).use{agent: Agent ->  agent.chatMemory.messages().firstOrNull()} //Check in agent memory. Looks like hack
 
     if (userRequest != null)
         return userRequest.toString()

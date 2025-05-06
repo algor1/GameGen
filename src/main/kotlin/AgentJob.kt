@@ -1,7 +1,7 @@
 import dev.langchain4j.data.message.ChatMessage
 import dev.langchain4j.data.message.ChatMessageType
 
-class AgentJob(val agentType: AgentType, val creationPrompt: String, val evaluationPrompt: String, val improvePrompt: String, val minScore: Int = 90): AutoCloseable {
+class AgentJob(val agentType: String, val creationPrompt: String, val evaluationPrompt: String, val improvePrompt: String, val minScore: Int = 90): AutoCloseable {
     val agent = Agent(agentType)
     private val assistant = agent.assistant
 
@@ -69,7 +69,7 @@ class AgentJob(val agentType: AgentType, val creationPrompt: String, val evaluat
     private fun findLastAnswer(): String{
         val reversedMemory = agent.chatMemory.messages().filter { it.type() == ChatMessageType.AI }.asReversed()
         for (message in reversedMemory) {
-            val messages = OutputParser.parse(message.text(), agentType.toString())
+            val messages = OutputParser.parse(message.text(), agentType)
             if (messages.size == 1)
                 return message.text()
         }

@@ -139,17 +139,21 @@ class Prompts {
     val objectInterfacesCreatePrompt =
         "Based on the detailed descriptions of the game objects (classes) created for a Unity project, generate C# interfaces (interface) for each object.\n" +
                 "For each interface, follow these rules:\n" +
-                "The interface must fully reflect the logic and behavior of the corresponding object\n" +
-                "Include all methods/actions that the object is supposed to perform\n" +
-                "Include all important properties/fields that the object needs to store and expose\n" +
-                "Only define signatures — no implementation details\n" +
-                "Use C# syntax, matching Unity development practices\n" +
-                "Assume that all objects and UI elements will be instantiated programmatically via scripts, and all visual assets (sprites, prefabs, UI components) will be prepared separately\n" +
-                "Naming conventions:\n" +
-                "Interface names should start with a capital I followed by the object name (e.g., IPlayer, IEnemy, IGameManager)\n" +
-                "Use properties instead of public fields whenever possible\n" +
-                "Output the interface definitions grouped logically if needed (e.g., player-related, UI-related, system-related).\n" +
-                "Do not include any unrelated code. Only clean and properly structured C# interfaces ready for use in Unity development."
+                "- The interface must fully reflect the logic and behavior of the corresponding object.\n" +
+                "- Include all methods/actions that the object is supposed to perform.\n" +
+                "- Include all important properties/fields that the object needs to store and expose.\n" +
+                "- Only define signatures — no implementation details.\n" +
+                "- Use C# syntax, matching Unity development practices.\n" +
+                "- Assume that all objects and UI elements will be instantiated programmatically via scripts, and all visual assets (sprites, prefabs, UI components) will be prepared separately.\n" +
+                "- Naming conventions:\n" +
+                "  - Interface names should start with a capital 'I' followed by the object name (e.g., IPlayer, IEnemy, IGameManager).\n" +
+                "  - Use properties instead of public fields whenever possible.\n" +
+                "- Output the interface definitions grouped logically if needed (e.g., player-related, UI-related, system-related).\n" +
+                "- Before each interface, insert a C# XML documentation comment in the following format:\n" +
+                "  /// <summary>\n" +
+                "  /// <Object description here — copy the original description used to generate the interface>\n" +
+                "  /// </summary>\n" +
+                "- Do not include any unrelated code. Only clean and properly structured C# interfaces ready for use in Unity development."
 
     val objectInterfacesEvaluatePrompt =
         "Evaluate the completeness and quality of the generated C# interfaces for a Unity game project.\n" +
@@ -175,21 +179,27 @@ class Prompts {
     val objectInterfacesImprovePrompt =
         "Based on the latest evaluation and feedback, do not simply fix the reported mistakes.\n" +
                 "Actively improve the C# interfaces for the Unity game project by:\n" +
-                "Adding any missing methods, properties, or interfaces that are necessary even if they were not explicitly pointed out\n" +
-                "Refactoring any interfaces that have too many responsibilities (apply interface segregation)\n" +
-                "Introducing base interfaces where multiple objects share common behaviors (e.g., IMovable, IDamageable, ICollectible)\n" +
-                "Ensuring that every class described can be fully implemented just by using its interface\n" +
-                "Enhancing the flexibility and scalability of the system (following SOLID principles where applicable)\n" +
-                "Considering real-world Unity development practices (e.g., lifecycle events, input handling separation, dependency injection patterns)\n" +
-                "Fully covering all described behaviors and data\n" +
-                "Building a clean, maintainable, and expandable interface architecture\n" +
-                "Output the complete corrected and improved set of C# interfaces, organized logically, and ready for immediate use in development."
+                "- Adding any missing methods, properties, or interfaces that are necessary even if they were not explicitly pointed out.\n" +
+                "- Refactoring any interfaces that have too many responsibilities (apply interface segregation).\n" +
+                "- Introducing base interfaces where multiple objects share common behaviors (e.g., IMovable, IDamageable, ICollectible).\n" +
+                "- Ensuring that every class described can be fully implemented just by using its interface.\n" +
+                "- Enhancing the flexibility and scalability of the system (following SOLID principles where applicable).\n" +
+                "- Considering real-world Unity development practices (e.g., lifecycle events, input handling separation, dependency injection patterns).\n" +
+                "- Fully covering all described behaviors and data.\n" +
+                "- Building a clean, maintainable, and expandable interface architecture.\n" +
+                "- Output the complete, corrected, and improved set of C# interfaces, organized logically, and ready for immediate use in development.\n" +
+                "- ⚠️ For each interface, include the original object description as an XML documentation comment directly above the interface using the format:\n" +
+                "  /// <summary>\n" +
+                "  /// <Object description here — copy the original description used to generate the interface>\n" +
+                "  /// </summary>\n" +
+                "- Do not include any unrelated code or implementation details. Only interfaces, clean and production-ready."
 
     val saveInterfacesPrompt =
         "Please save each of the following C# interface definitions into a separate .cs file using FileSaveTool.\n" +
-                "The filename for each file should exactly match the interface name (e.g., IPlayer.cs, IGameManager.cs)\n" +
-                "Each file should contain only one interface in valid C# syntax\n" +
-                "Include necessary using statements if required (like using UnityEngine;)\n" +
+                "- The filename for each file should exactly match the interface name (e.g., IPlayer.cs, IGameManager.cs).\n" +
+                "- Each file should contain only one interface in valid C# syntax.\n" +
+                "- Include necessary using statements if required (like using UnityEngine;).\n" +
+                "- Save all files into the subdirectory named `interfaces` (e.g., interfaces/IPlayer.cs).\n" +
                 "Here is the full list of interfaces:\n"
 
     val interfacesTestsCreatePrompt =

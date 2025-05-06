@@ -30,7 +30,7 @@ enum class AgentType{
 }
 val enableOpenAi:Boolean = true
 
-class Agent (agentType: AgentType): AutoCloseable{
+class Agent (agentType: String): AutoCloseable{
 
     private val persistentChatMemoryStore = PersistentChatMemoryStore(agentType)
 
@@ -88,7 +88,7 @@ class Agent (agentType: AgentType): AutoCloseable{
     }
 }
 
-class PersistentChatMemoryStore(agentType: AgentType) : ChatMemoryStore, AutoCloseable {
+class PersistentChatMemoryStore(agentType: String) : ChatMemoryStore, AutoCloseable {
     private val db: DB = DBMaker.fileDB("$workDir${agentType}-memory.db").transactionEnable().make()
     private val map: MutableMap<String, String> = db.hashMap("messages", STRING, STRING).createOrOpen()
 
