@@ -1,1 +1,1 @@
-Game description and game design generation with minimal human intervention
+Game description and game design generation with minimal human interaction
